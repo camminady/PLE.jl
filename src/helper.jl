@@ -1,4 +1,3 @@
-using StaticArrays
 
 function findindex(x,X)
     # For an array X of increasing values,

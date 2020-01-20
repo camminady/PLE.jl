@@ -1,3 +1,19 @@
+export assign
+
+function assign(n,sigma)
+    return assign(n,sigma,10,10)
+end
+
+
+function assign(n,sigma,nx,ny)
+    x0,x1 = 0.0,1.0
+    y0,y1 = 0.0,1.0
+    x = x0.+(x1-x0)*rand(n)
+    y = y0.+(y1-y0)*rand(n)
+    r = ones(n)*(sigma/n)/2;
+    return assign(x0,x1,nx,y0,y1,ny,x,y,r)
+end
+
 function assign(x0,x1,nx,y0,y1,ny,x,y,r)
     T = typeof(x[1])
     collectionx = [zeros(T,0) for i=1:nx,j=1:ny]
@@ -44,5 +60,8 @@ function assign(x0,x1,nx,y0,y1,ny,x,y,r)
                                         length(collectionx[i,j]))
         end
     end
-    return Collection
+    
+    Meta = Metadata(nx,ny,edgesx,edgesy)
+    
+    return Collection, Meta
 end

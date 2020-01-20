@@ -1,16 +1,24 @@
 module PLE
+
 using Revise
 using PyPlot
 using StaticArrays
 using LinearAlgebra
+using StatsBase
+using Distributions
+using Seaborn 
 
 include("MyStructs.jl")
 include("helper.jl")
 include("traverse.jl")
 include("checkcollision.jl")
 include("assignobstacles.jl")
-greet() = print("Hello World!")
-export Obstacles, Particle, Event 
-export gettrajectory, visualizeevents, assign 
+include("gettrajectory.jl")
+include("visualize.jl")
+include("getparticle.jl")
+include("postprocess.jl")
+
+set_context("poster")
+set_context("poster")
 
 end

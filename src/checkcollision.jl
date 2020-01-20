@@ -1,5 +1,4 @@
 include("MyStructs.jl")
-using LinearAlgebra
 function checkallcollision(posparticle::Array{Float64,1},
                veloparticle::Array{Float64,1},
                radparticle::Float64,

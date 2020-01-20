@@ -1,16 +1,26 @@
+export gettrajectory
 
-function gettrajectory(ncollisions,x0,y0,vx0,vy0,particlerad,Collection,edgesx,edgesy,fullhistory)
+function gettrajectory(Collection,Meta,P,ncollisions,fullhistory)
     # Tracks the trajectory of a particle at 
     # (x0,y0) with initial (unit speed) velocity (vx,vy)
     # through its next ncollisions collisions.
+    
+   
+    x0,y0,vx0,vy0,particlerad =  P.x,P.y,P.vx,P.vy,P.r
+    edgesx,edgesy  = Meta.edgesx, Meta.edgesy
     
     # Find initial cell of the particle
     i,j  = findindex(x0,edgesx), findindex(y0,edgesy)
     
     # Make sure the particle is not already inside an obstacle
-    dists =  sqrt.((x0.-Collection[i,j].x).^2 .+(y0.-Collection[i,j].y).^2) .- Collection[i,j].r
-    if minimum(dists) < 0.0  error("A particle is placed inside an obstacle") end
-
+    if length(Collection[i,j].x)>0
+        dists =  sqrt.((x0.-Collection[i,j].x).^2 .+(y0.-Collection[i,j].y).^2) .- Collection[i,j].r
+        if minimum(dists) < 0.0  error("A particle is placed inside an obstacle") end
+    end
+    
+    # Normalize velocity
+    normv = norm([vx0,vy0])
+    vx0,vy0 = vx0/normv,vy0/normv
     
     nx,ny = length(edgesx)-1, length(edgesy)-1
     lx,ly  = edgesx[end]-edgesx[1], edgesy[end]-edgesy[1]

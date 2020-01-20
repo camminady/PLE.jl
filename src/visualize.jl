@@ -1,7 +1,9 @@
-using PyPlot
+export visualizeevents
 
-
-function visualizeevents(Collection,nx,ny,x0,x1,y0,y1,Events)
+function visualizeevents(Collection,Meta,Events)
+    pygui(true)
+    close("all")
+    nx,ny,x0,x1,y0,y1 = Meta.nx, Meta.ny, Meta.edgesx[1], Meta.edgesx[end], Meta.edgesy[1], Meta.edgesy[end]
     fig, ax = plt.subplots(1,1,figsize=(10,10))
     cols = plt.cm.tab10(range(0,stop=1,length=nx*ny))
     cols[:,end] .= 0.7 # alpha
@@ -23,8 +25,8 @@ function visualizeevents(Collection,nx,ny,x0,x1,y0,y1,Events)
 
     ax.axvline(edgesx[nx+1],y0,y1,color="black")
     ax.axhline(edgesy[ny+1],x0,x1,color="black")
-    ax.set_xlim([x0-2*r[1],x1+2*r[1]])
-    ax.set_ylim([y0-2*r[1],y1+2*r[1]])
+    ax.set_xlim([x0-2*Collection[1,1].r[1],x1+2*Collection[1,1].r[1]])
+    ax.set_ylim([y0-2*Collection[1,1].r[1],y1+2*Collection[1,1].r[1]])
    
     
     for i=1:length(Events)

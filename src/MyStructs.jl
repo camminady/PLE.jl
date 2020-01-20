@@ -1,10 +1,23 @@
-struct Obstacles{T} # We will use this as a struct of arrays
+export  Obstacles, 
+        Particle, 
+        Event,
+        Metadata
+
+mutable struct Obstacles{T}  # We will use this as a struct of arrays
     x::T
     y::T
     r::T
     n::Int64
 end
-mutable struct Particle{T}
+
+mutable struct Metadata
+    nx::Int64
+    ny::Int64
+    edgesx::Array{Float64,1}
+    edgesy::Array{Float64,1}
+end
+
+mutable struct Particle{T}  
     x::T
     y::T
     r::T
@@ -12,8 +25,7 @@ mutable struct Particle{T}
     vy::T
 end
 
-
-struct Event{T}
+mutable struct Event{T} 
     oldx::T
     oldy::T
     oldvx::T
