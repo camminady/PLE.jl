@@ -1,0 +1,10 @@
+name = "PLE"
+uuid = "4fcd0700-a60e-443e-8cee-35617d6c110a"
+authors = ["Thomas <thomas@camminady.org>"]
+version = "0.1.0"
+
+[deps]
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
+PyPlot = "d330b81b-6aea-500a-939a-2ce795aea3ee"
+Revise = "295af30f-e4ad-537b-8983-00126c2a3abe"
+StaticArrays = "90137ffa-7385-5640-81b9-e52037218182"
