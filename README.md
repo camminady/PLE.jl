@@ -1,3 +1,4 @@
-# PLE --- Path-lengths estimator in Julia
+# PLE
+Path-lengths estimator in Julia
 
 
