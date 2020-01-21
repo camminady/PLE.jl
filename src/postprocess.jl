@@ -3,8 +3,6 @@ function postprocess(Events)
     set_context("poster")
     set_context("poster")
     close("all")
-    set_context("poster")
-    set_context("poster")
     pathlengths = zeros(0)
     distance = 0.0
     for i=1:length(Events)
@@ -21,7 +19,7 @@ function postprocess(Events)
     
     logpathlengths = log10.(pathlengths)
     
-    h = fit(Histogram, pathlengths)
+    h = fit(Histogram, pathlengths, nbins = 20)
     
     centers = (h.edges[1][1:end-1] .+ h.edges[1][2:end])/2 
     weights = h.weights
@@ -33,7 +31,7 @@ function postprocess(Events)
     ax.plot(centers,pdf.(d,centers),lw=2,"--")
     ax.set_title("Pathlengths distribution for n=$npl samples.")
     ax.set_xlabel("Distance s")
-    ax.set_ylabel("Frequency")
+    ax.set_ylabel("Rel. frequency")
     theta = params(d)[1]
     lambda = round(1.0/theta,digits = 3)
     ax.legend(["Data","Best fit, \$ \\lambda \\exp( -\\lambda s)\$, \$\\lambda=\$ $lambda"])

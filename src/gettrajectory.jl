@@ -31,22 +31,35 @@ function gettrajectory(Collection,Meta,P,ncollisions,fullhistory)
         if mod(collisioncount,1000)==0
             println(collisioncount)
         end
-        iscollided, attemptcount = false, 0
+        iscollided = false
+        
         while !iscollided
             # Check if the particle collides in the current cell
             iscollided,distanceincell,newx,newy,newvx,newvy = checkallcollision(
                 [x0,y0],[vx0,vy0],particlerad, Collection[i,j])
-            if iscollided                
-                collisioncount += 1
-            else # no collision took plac 
-                # Find out where the particle will now move
-                ishift, jshift,distanceincell,newx,newy,newvx,newvy =traverse(
+            
+            # find out where the particle where to move if it did not collide
+            ishift, jshift,distanceincelltrav,newxtrav,newytrav,newvxtrav,newvytrav =traverse(
                         x0,y0,vx0,vy0,edgesx[i],edgesx[i+1],edgesy[j],edgesy[j+1])
-                attemptcount += 1
-                if attemptcount > 100
-                    println("$x0, $y0, $vx0, $vy0, $ishift, $jshift, $i, $j")
+            
+            if !iscollided
+                distanceincell = distanceincelltrav
+                newx,newy,newvx,newvy = newxtrav,newytrav, newvxtrav, newvytrav
+            else
+                # Even if we collided, there is this weird case where a scatterer's center
+                # is in the neighboring cell and a particle collides with that scatterer
+                # but outside of its current cell 
+                # This would then not actually be a collisions
+                if distanceincell>distanceincelltrav # That is the case!
+                    iscollided = false
+                    distanceincell = distanceincelltrav
+                    newx,newy,newvx,newvy = newxtrav,newytrav, newvxtrav, newvytrav
+                else
+                    collisioncount += 1 # A collision takes place inside the cell
                 end
             end
+                
+                
             
             # Store an event. If a particle "makes use of periodicity", create two events
             # First event without checking for periodicity
@@ -55,23 +68,25 @@ function gettrajectory(Collection,Meta,P,ncollisions,fullhistory)
                 push!(Events,e)
             end
             x0,y0,vx0,vy0 = newx,newy,newvx,newvy
-            if (x0>edgesx[end]) | (x0<edgesx[1]) | (y0>edgesy[end]) | (y0<edgesy[1])
-                println("oob $x0, $y0, $vx0, $vy0,  $i, $j, $iscollided")
-            end
+
             
             # Second event: check for periodicity, this is only possible in the absence of a collision
+            # actually this is not correct. it can also happy in the case of a collision with a particle
             if !iscollided
                isperiodic,newx,newy, newi,newj = getperiodic(newx,newy,i,j,ishift,jshift,edgesx,edgesy) 
                 if isperiodic
                     if fullhistory
                         e = Event(x0,y0,vx0,vy0,i,j,newx,newy,newvx,newvy,newi,newj,0.0,false,true) 
-                        println(e)
+                        #println(e)
                         push!(Events,e)
                     end
                 end
                 x0,y0,vx0,vy0,i,j = newx,newy,newvx,newvy,newi,newj
             end
         end 
+        if (x0>edgesx[end]) | (x0<edgesx[1]) | (y0>edgesy[end]) | (y0<edgesy[1])
+            println("problem oob $x0, $y0, $vx0, $vy0,  $i, $j, $iscollided")
+        end
     end
     return Events
 end
