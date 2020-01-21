@@ -5,6 +5,10 @@ function visualizeevents(Collection,Meta,Events)
     close("all")
     set_context("poster")
     set_context("poster")
+    if length(Events)>10000
+        nevents = length(Events)
+        error("We can not visualize that many events ($nevents).")
+    end
     
     nx,ny,x0,x1,y0,y1 = Meta.nx, Meta.ny, Meta.edgesx[1], Meta.edgesx[end], Meta.edgesy[1], Meta.edgesy[end]
     fig, ax = plt.subplots(1,1,figsize=(10,10))
