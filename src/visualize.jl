@@ -9,7 +9,7 @@ function visualizeevents(Collection,Meta,Events)
     nx,ny,x0,x1,y0,y1 = Meta.nx, Meta.ny, Meta.edgesx[1], Meta.edgesx[end], Meta.edgesy[1], Meta.edgesy[end]
     fig, ax = plt.subplots(1,1,figsize=(10,10))
     cols = plt.cm.tab10(range(0,stop=1,length=nx*ny))
-    cols[:,end] .= 0.9 # alpha
+    cols[:,end] .= 0.3 # alpha
     edgesx = range(x0,stop=x1,length=nx+1)
     edgesy = range(y0,stop=y1,length=ny+1)
     for i=1:nx

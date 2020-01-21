@@ -57,6 +57,7 @@ function postprocess(pathlengths::Array{Float64,1})
     ax.set_title("Pathlengths distribution for n=$npl samples.")
     ax.set_xlabel("Distance s")
     ax.set_ylabel("Rel. frequency")
+    ax.set_ylim([1e-16,1])
     theta = params(d)[1]
     lambda = round(1.0/theta,digits = 3)
     sigma = round(lsqfit.param[1],digits = 3)

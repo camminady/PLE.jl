@@ -28,7 +28,7 @@ function gettrajectory(Collection,Meta,P,ncollisions,fullhistory)
     Events = []
     Pathlengths = zeros(ncollisions)
     while collisioncount < ncollisions
-        if (collisioncount > 0 )&( mod(collisioncount+1,100000)==0 )
+        if (collisioncount > 0 )&( mod(collisioncount+1,1000000)==0 )
             println("Collision $(1+collisioncount) of $ncollisions.")
         end
         iscollided = false

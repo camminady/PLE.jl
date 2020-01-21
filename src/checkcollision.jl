@@ -86,7 +86,7 @@ function checksinglecollision(px::Float64,py::Float64,vx::Float64,vy::Float64,
         coly = py + distancetravelled*vy
         # new velocity: See Martin's Kinetic Theory lecture
         # only difference: particle may have finite size
-        newvx,newvy = reflect(px,py,obsx,obsy,radobs,vx,vy)
+        newvx,newvy = reflect(colx,coly,obsx,obsy,radobs,vx,vy)
         return true,distancetravelled*sqrt(vx^2+vy^2), colx,coly, newvx,newvy
   
 end
