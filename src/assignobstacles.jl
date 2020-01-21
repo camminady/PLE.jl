@@ -1,8 +1,49 @@
-export assign
+export assign, assignlattice
+
+
+
 
 function assign(n,sigma)
-    return assign(n,sigma,10,10)
+    magicnumber = 4 
+    K = Int64(ceil(sqrt(n*sigma/magicnumber)))
+    println("We use $K x $K cells.")
+    return assign(n,sigma,K,K)
 end
+
+function assignlattice(n,sigma)
+    magicnumber = 4 
+    K = Int64(ceil(sqrt(n*sigma/magicnumber)))
+    println("We use $K x $K cells.")
+    return assignlattice(n,sigma,K,K)
+end
+
+function assignlattice(n,sigma,nx,ny)
+    x0,x1 = 0.0,1.0
+    y0,y1 = 0.0,1.0
+    m = Int64(floor(sqrt(n)))
+    edgesx = range(x0,stop=x1,length=m+1)
+    edgesy = range(y0,stop=y1,length=m+1)
+    x = zeros(m*m)
+    y = zeros(m*m)
+    r = ones(m*m)
+    count = 1
+    for i=1:m
+        for j=1:m
+            x[count] = edgesx[i]
+            y[count] = edgesy[j]
+            r[count] = 2*sigma/(m*m)
+            count += 1 
+        end
+    end
+    delta1 = edgesx[2]-edgesx[1]
+    radii = r[1]
+    delta2 = delta1-2*radii
+    println("Lattice distance: $delta1")
+    println("Boundary distance $delta2")
+    println("Radii: $radii")
+    return assign(x0,x1,nx,y0,y1,ny,x,y,r)
+end
+
 
 
 function assign(n,sigma,nx,ny)

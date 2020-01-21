@@ -7,6 +7,7 @@ using LinearAlgebra
 using StatsBase
 using Distributions
 using Seaborn 
+using LsqFit
 
 include("MyStructs.jl")
 include("helper.jl")
