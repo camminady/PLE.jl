@@ -1,5 +1,7 @@
 export postprocess
 function postprocess(Events)
+    set_context("poster")
+    set_context("poster")
     close("all")
     set_context("poster")
     set_context("poster")
@@ -36,5 +38,5 @@ function postprocess(Events)
     lambda = round(1.0/theta,digits = 3)
     ax.legend(["Data","Best fit, \$ \\lambda \\exp( -\\lambda s)\$, \$\\lambda=\$ $lambda"])
     plt.tight_layout()
-    plt.savefig("Histogram.png",dpi=200)
+    #plt.savefig("Histogram.png",dpi=200)
 end

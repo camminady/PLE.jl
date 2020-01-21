@@ -28,6 +28,9 @@ function gettrajectory(Collection,Meta,P,ncollisions,fullhistory)
     Events = []
    
     while collisioncount < ncollisions
+        if mod(collisioncount,1000)==0
+            println(collisioncount)
+        end
         iscollided, attemptcount = false, 0
         while !iscollided
             # Check if the particle collides in the current cell
@@ -40,6 +43,9 @@ function gettrajectory(Collection,Meta,P,ncollisions,fullhistory)
                 ishift, jshift,distanceincell,newx,newy,newvx,newvy =traverse(
                         x0,y0,vx0,vy0,edgesx[i],edgesx[i+1],edgesy[j],edgesy[j+1])
                 attemptcount += 1
+                if attemptcount > 100
+                    println("$x0, $y0, $vx0, $vy0, $ishift, $jshift, $i, $j")
+                end
             end
             
             # Store an event. If a particle "makes use of periodicity", create two events
@@ -49,12 +55,17 @@ function gettrajectory(Collection,Meta,P,ncollisions,fullhistory)
                 push!(Events,e)
             end
             x0,y0,vx0,vy0 = newx,newy,newvx,newvy
+            if (x0>edgesx[end]) | (x0<edgesx[1]) | (y0>edgesy[end]) | (y0<edgesy[1])
+                println("oob $x0, $y0, $vx0, $vy0,  $i, $j, $iscollided")
+            end
+            
             # Second event: check for periodicity, this is only possible in the absence of a collision
             if !iscollided
                isperiodic,newx,newy, newi,newj = getperiodic(newx,newy,i,j,ishift,jshift,edgesx,edgesy) 
                 if isperiodic
                     if fullhistory
                         e = Event(x0,y0,vx0,vy0,i,j,newx,newy,newvx,newvy,newi,newj,0.0,false,true) 
+                        println(e)
                         push!(Events,e)
                     end
                 end

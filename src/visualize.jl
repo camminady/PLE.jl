@@ -11,8 +11,8 @@ function visualizeevents(Collection,Meta,Events)
     edgesy = range(y0,stop=y1,length=ny+1)
     for i=1:nx
         for j=1:ny
-            ax.axvline(edgesx[i],y0,y1,color="black")
-            ax.axhline(edgesy[j],x0,x1,color="black")
+            ax.axvline(edgesx[i],y0,y1,color="grey",lw=1)
+            ax.axhline(edgesy[j],x0,x1,color="grey",lw=1)
             for n=1:Collection[i,j].n
                 x,y,r = Collection[i,j].x[n], Collection[i,j].y[n], Collection[i,j].r[n]
                 ax.add_artist(plt.Circle((x,y), r,color=cols[j+(i-1)*ny,:]))
@@ -23,8 +23,8 @@ function visualizeevents(Collection,Meta,Events)
         end
     end
 
-    ax.axvline(edgesx[nx+1],y0,y1,color="black")
-    ax.axhline(edgesy[ny+1],x0,x1,color="black")
+    ax.axvline(edgesx[nx+1],y0,y1,color="grey",lw=1)
+    ax.axhline(edgesy[ny+1],x0,x1,color="grey",lw=1)
     ax.set_xlim([x0-2*Collection[1,1].r[1],x1+2*Collection[1,1].r[1]])
     ax.set_ylim([y0-2*Collection[1,1].r[1],y1+2*Collection[1,1].r[1]])
    
@@ -34,7 +34,7 @@ function visualizeevents(Collection,Meta,Events)
         if !e.crossinterfaceperiodic
             col = ifelse(e.collision,"red","blue")
             col = ifelse(i==1,"green",col)
-            ax.plot([e.oldx,e.newx],[e.oldy,e.newy],color=col)
+            ax.plot([e.oldx,e.newx],[e.oldy,e.newy],color=col,lw = 1)
         end
     end
     
