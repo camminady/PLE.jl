@@ -39,7 +39,7 @@ function traverse(posx::Float64,posy::Float64,velx::Float64,vely::Float64,
     
 
     # assert that we are in the domain
-    eps = 1e-14
+    #eps = 1e-14
     #@assert posx>= x0-eps
     #@assert posx<= x1+eps
     #@assert posy>= y0-eps
@@ -47,7 +47,7 @@ function traverse(posx::Float64,posy::Float64,velx::Float64,vely::Float64,
 
     # assert a non zero velocity
     normv = sqrt(vely^2+velx^2)
-    @assert normv>0
+    #@assert normv>0
    
     # are we moving north east, south east, south west or north west
     vertical   = ifelse(velx>=0,+1,-1)    
@@ -65,17 +65,21 @@ function traverse(posx::Float64,posy::Float64,velx::Float64,vely::Float64,
     # check which face we hit first and save the corresponding i/j shift
     # as well as the distance travelled
     if disty<distx
-        nextij = [0,horizontal]
+        nexti = 0
+        nextj = horizontal
         dist = disty
     elseif disty>distx
-        nextij = [vertical,0]
+        nexti = vertical
+        nextj = 0
         dist = distx
     else
-        nextij = [vertical,horizontal]
+        nexti = vertical
+        nextj = horizontal
         dist = distx # == disty
     end
 
     # at what point to we cross the interface
-    nextxy = [posx;posy] .+ dist*[velx;vely]
-    return nextij[1],nextij[2], dist*normv, nextxy[1],nextxy[2],velx,vely 
+    nextx = posx + dist*velx
+    nexty = posy + dist*vely
+    return nexti,nextj, dist*normv, nextx,nexty,velx,vely 
 end

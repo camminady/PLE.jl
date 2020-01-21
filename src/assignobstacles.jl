@@ -4,14 +4,14 @@ export assign, assignlattice
 
 
 function assign(n,sigma)
-    magicnumber = 4 
+    magicnumber = 8 
     K = Int64(ceil(sqrt(n*sigma/magicnumber)))
     println("We use $K x $K cells.")
     return assign(n,sigma,K,K)
 end
 
 function assignlattice(n,sigma)
-    magicnumber = 4 
+    magicnumber = 8
     K = Int64(ceil(sqrt(n*sigma/magicnumber)))
     println("We use $K x $K cells.")
     return assignlattice(n,sigma,K,K)

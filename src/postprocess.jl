@@ -1,5 +1,5 @@
 export postprocess
-function postprocess(Events)
+function postprocess(Events::Array{Event,1})
     set_context("poster")
     set_context("poster")
     close("all")
@@ -18,7 +18,16 @@ function postprocess(Events)
             distance = 0.0
         end
     end
-    pathlengths = sort(pathlengths)
+    return postprocess(pathlengths)
+end
+
+
+function postprocess(pathlengths::Array{Float64,1})
+    set_context("poster")
+    set_context("poster")
+    close("all")
+   
+    sort!(pathlengths)
     
     
     npl = length(pathlengths)

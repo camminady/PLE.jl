@@ -26,17 +26,17 @@ function gettrajectory(Collection,Meta,P,ncollisions,fullhistory)
     lx,ly  = edgesx[end]-edgesx[1], edgesy[end]-edgesy[1]
     collisioncount = 0
     Events = []
-   
+    Pathlengths = zeros(ncollisions)
     while collisioncount < ncollisions
-        if (collisioncount > 0 )&( mod(collisioncount+1,10000)==0 )
+        if (collisioncount > 0 )&( mod(collisioncount+1,100000)==0 )
             println("Collision $(1+collisioncount) of $ncollisions.")
         end
         iscollided = false
-        
+        distancesincelastreset = 0.0
         while !iscollided
             # Check if the particle collides in the current cell
             iscollided,distanceincell,newx,newy,newvx,newvy = checkallcollision(
-                [x0,y0],[vx0,vy0],particlerad, Collection[i,j])
+                x0,y0,vx0,vy0,particlerad, Collection[i,j])
             
             # find out where the particle where to move if it did not collide
             ishift, jshift,distanceincelltrav,newxtrav,newytrav,newvxtrav,newvytrav =traverse(
@@ -67,6 +67,10 @@ function gettrajectory(Collection,Meta,P,ncollisions,fullhistory)
                 e = Event(x0,y0,vx0,vy0,i,j,newx,newy,newvx,newvy,i,j,distanceincell,iscollided,false)
                 push!(Events,e)
             end
+            # Always store pathlengths if this is the end
+            distancesincelastreset += distanceincell
+            
+            
             x0,y0,vx0,vy0 = newx,newy,newvx,newvy
 
             
@@ -84,9 +88,10 @@ function gettrajectory(Collection,Meta,P,ncollisions,fullhistory)
                 x0,y0,vx0,vy0,i,j = newx,newy,newvx,newvy,newi,newj
             end
         end 
+        Pathlengths[collisioncount] = distancesincelastreset
         if (x0>edgesx[end]) | (x0<edgesx[1]) | (y0>edgesy[end]) | (y0<edgesy[1])
-            println("problem oob $x0, $y0, $vx0, $vy0,  $i, $j, $iscollided")
+            error("Out of bounds problem. Log: $x0, $y0, $vx0, $vy0,  $i, $j, $iscollided")
         end
     end
-    return Events
+    return Events, Pathlengths
 end
