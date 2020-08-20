@@ -1,8 +1,8 @@
-# PLE
+# PLE.jl
 Path-lengths estimator in Julia
 
 
-With PLE it is possible to compute trajectories of particles inside an obstacle field. Particles undergo elastic collisions with the background obstacles (which have fixec positions).
+With PLE it is possible to compute trajectories of particles inside an obstacle field. Particles undergo elastic collisions with the background obstacles (which have fixed positions).
 
 
 ## Simple example
