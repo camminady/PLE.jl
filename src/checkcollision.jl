@@ -1,4 +1,4 @@
-include("MyStructs.jl")
+	include("MyStructs.jl")
 function checkallcollision(posx::Float64,posy::Float64,vx::Float64,vy::Float64,radparticle::Float64, OF::Obstacles)
 
     nobs  = OF.n
